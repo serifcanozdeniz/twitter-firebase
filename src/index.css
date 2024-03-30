@@ -10,6 +10,14 @@ body {
   display: grid;
   grid-template-columns: 1fr minmax(400px, 600px) 1fr;
 }
+
+*::-webkit-scrollbar {
+  background-color: transparent;
+  width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #616161;
+}
 /* The design is inspired from the mockapi.io */
 
 .popup {

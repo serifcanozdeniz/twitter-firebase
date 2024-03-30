@@ -11,8 +11,13 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import EditMode from "./EditMode";
+import Content from "./Content";
 
 const Post = ({ tweet }) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+
   // tarihin günümüze göre kıyasını al
   const date = moment(tweet?.createdAt?.toDate()).fromNow();
 
@@ -69,19 +74,19 @@ const Post = ({ tweet }) => {
           </div>
 
           {tweet.user.id === auth.currentUser.uid && (
-            <Dropdown handleDelete={handleDelete} />
+            <Dropdown
+              handleEdit={() => setIsEditMode(true)}
+              handleDelete={handleDelete}
+            />
           )}
         </div>
 
         {/* orta kısım */}
         <div className="my-4">
-          {tweet.textContent && <p>{tweet.textContent}</p>}
-
-          {tweet.imageContent && (
-            <img
-              className="max-h-[400px] object-cover w-full rounded-lg my-2"
-              src={tweet.imageContent}
-            />
+          {isEditMode ? (
+            <EditMode tweet={tweet} close={() => setIsEditMode(false)} />
+          ) : (
+            <Content tweet={tweet} />
           )}
         </div>
 

@@ -1,10 +1,12 @@
 import { FiEdit2 } from "react-icons/fi";
 import { FaTrash } from "react-icons/fa";
+import { useRef } from "react";
 
-const Dropdown = ({ handleDelete }) => {
+const Dropdown = ({ handleDelete, handleEdit }) => {
+  const inputRef = useRef();
   return (
     <label className="popup">
-      <input type="checkbox" />
+      <input ref={inputRef} type="checkbox" />
       <div className="burger" tabindex="0">
         <span></span>
         <span></span>
@@ -14,7 +16,12 @@ const Dropdown = ({ handleDelete }) => {
         <legend>Aksiyonlar</legend>
         <ul>
           <li>
-            <button>
+            <button
+              onClick={() => {
+                handleEdit();
+                inputRef.current.checked = false;
+              }}
+            >
               <FiEdit2 />
               <span>Düzenle</span>
             </button>

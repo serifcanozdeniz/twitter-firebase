@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Form from "../../components/Form";
 import Post from "../../components/Post";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import Loader from "../../components/Loader";
 
@@ -11,8 +11,11 @@ const Main = ({ user }) => {
     // abone olunacak koleksiyonun referansı
     const collectionRef = collection(db, "tweets");
 
+    // ayarları belirle
+    const q = query(collectionRef, orderBy("createdAt", "desc"));
+
     // koleksiyondaki verileri canlı olarak al
-    const unsub = onSnapshot(collectionRef, (snapshot) => {
+    const unsub = onSnapshot(q, (snapshot) => {
       const tempTweets = [];
       snapshot.docs.forEach((doc) =>
         tempTweets.push({ ...doc.data(), id: doc.id })
